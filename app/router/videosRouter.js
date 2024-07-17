@@ -10,7 +10,10 @@ router.get("/", videosController.getAllVideos)
 router.get("/:videoId", videosController.getOneVideo)
 
 //Route pour créer une vidéo
-router.patch("/:videoId", videosController.changeOneVideo)
+router.post("/", videosController.createOneVideo)
+
+//Route pour modifier une vidéo
+router.patch("/:videoId", videosController.updateOneVideo)
 
 //Route pour supprimer une vidéo 
 router.delete("/:videoId", videosController.deleteOneVideo)
