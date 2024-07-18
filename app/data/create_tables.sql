@@ -28,6 +28,7 @@ INSERT INTO "Videos"("name", "description", "url") VALUES
 ('Meow', 'lorem ipsum', 'https://www.youtube.com/shorts/NsMKvVdEPkw');
 
 INSERT INTO "Tags"("value") VALUES ('cat');
+
 INSERT INTO "M2M_TagsVideos"("tag_id", "video_id") VALUES (1, 1);
 
 COMMIT;

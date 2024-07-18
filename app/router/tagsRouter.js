@@ -7,6 +7,6 @@ const router = Router();
 router.post("/", tagsController.createTag)
 
 // Route pour supprimer un tag
-router.delete("/", tagsController.deleteTag)
+router.delete("/:tagId", tagsController.deleteTag)
 
 export default router; 
