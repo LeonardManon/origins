@@ -1,10 +1,18 @@
 import client from "../database.js"
 
 const dataMapper= {
-     //méthode pour créer un tag 
+
+    getOneTag: async(tagId) => {
+        const sql=  {
+            text: `SELECT * FROM "Tags" WHERE "id" = $1`,
+            values: [tagId],
+        } 
+        const result = await client.query(sql);
+        return result.rows;
+    }, 
+    //méthode pour créer un tag 
      create: async(tag) => {
         const { value } = tag; 
-
         const sql=  {
             text: `INSERT INTO "Tags" (value) VALUES ($1)`,
             values: [value],

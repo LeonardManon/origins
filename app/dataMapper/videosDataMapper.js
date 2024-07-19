@@ -47,28 +47,7 @@ const dataMapper= {
         return result.rows;
     }, 
 
-    //méthode pour ajouter un tag à une vidéo
-    addTagInVideo: async(tagVideo) => {
-        console.log("tagVideo", tagVideo)
-        const { video_id, tag_id } = tagVideo; 
-        const sql= {
-            text: `UPDATE "M2M_TagsVideos" SET "video_id" =$1, "tag_id" =$2 WHERE "id" = $3 RETURNING video_id, tag_id`,
-            values: [video_id, tag_id],
-        };
-        console.log(`[{sql}]:`, sql);
-        const result = await client.query(sql);
-        return result.rows;
-    }, 
-
-    //méthode pour supprimer un tag à une vidéo
-    deleteTagInVideo: async(tagId) => {
-        const sql=  {
-            text: `DELETE FROM "M2M_TagsVideos" WHERE "tag_id" = ${tagId} RETURNING *`,
-        } 
-        const result = await client.query(sql);
-        return result.rows;
-    }, 
-
+    
 };
 
 
