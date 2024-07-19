@@ -40,7 +40,8 @@ const videosController = {
 		try {
 			//récupérer l’id de la ressource que je compte modifier dans le controller dédié
 			const videoId = Number(req.params.videoId);
-			// récupérer en bdd la ressource avec son id pour vérifier qu’elle existec
+			const videoToUpdate = req.body;
+			// récupérer en bdd la ressource avec son id pour vérifier qu’elle existe
 			const video = await dataMapper.getOne(videoId);
 			//si elle n’existe pas
 			// renvoyer une erreur 404 (fin de l’algo)
@@ -50,7 +51,7 @@ const videosController = {
 			// si elle existe
 			// récuperer la data reçu dans le body à modifier
 			// faire un update en bdd de la data sur l’entrée en bdd qui correspond à l’id de la ressource
-			await dataMapper.update(req.body)
+			await dataMapper.update(videoId, videoToUpdate)
 			return res.send()
 			// renvoyer une 200 (fin de l’algo)
 		} catch (error) {

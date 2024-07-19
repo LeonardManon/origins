@@ -28,13 +28,12 @@ const dataMapper= {
     }, 
 
     //méthode pour modifier une vidéo 
-    update: async (video) => {
-        const {name, description, url, id} = video; 
+    update: async (videoId, video) => {
+        const {name, description, url } = video; 
         const sql = {
             text: `UPDATE "Videos" SET "name" =$1, "description" = $2, "url" = $3 WHERE "id"= $4 RETURNING name, description, url, id `,
-            values: [name, description, url, id],
+            values: [name, description, url, videoId],
         };
-        ;
         const result = await client.query(sql);
         return result.rows
     }, 
