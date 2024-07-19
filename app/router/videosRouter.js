@@ -10,15 +10,18 @@ router.get("/", videosController.getAllVideos)
 router.get("/:videoId", videosController.getOneVideo)
 
 //Route pour créer une vidéo
-router.patch("/:videoId", videosController.changeOneVideo)
+router.post("/", videosController.createOneVideo)
+
+//Route pour modifier une vidéo
+router.patch("/:videoId", videosController.updateOneVideo)
 
 //Route pour supprimer une vidéo 
 router.delete("/:videoId", videosController.deleteOneVideo)
 
 //Route pour ajouter un tag à une vidéo
-router.patch("/:videoId/tag/:tagId", videosController.addTagInVideo)
+router.put("/:videoId/tag/:tagId", videosController.addTagInVideo)
 
 //Route pour supprimer un tag à une vidéo
-router.delete("/:videoId/tag/:tagId", videosController.deleteTagFromVideo)
+router.delete("/:videoId/tag/:tagId", videosController.deleteTagVideo)
 
 export default router;

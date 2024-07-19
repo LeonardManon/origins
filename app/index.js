@@ -4,6 +4,9 @@ import express from "express";
 // création de l'application 
 export const app = express();
 
+app.use(express.json()) // for parsing application/json
+app.use(express.urlencoded({ extended: true })) // for parsing application/x-www-form-urlencoded
+
 // mise en place du routeur 
 app.use(router)
 
