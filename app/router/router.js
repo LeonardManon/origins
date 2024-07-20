@@ -2,10 +2,10 @@ import { Router } from "express";
 import videosRouter from "./videosRouter.js";
 import tagsRouter  from "./tagsRouter.js";
 
-// Main API router
+// API router
 const router = Router();
 
-// les routes 
+// Les routes 
 router.use("/videos", videosRouter);
 router.use("/tags", tagsRouter);
 

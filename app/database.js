@@ -7,4 +7,4 @@ const client = new pg.Client(process.env.PG_URL);
 // Connecter le client
 client.connect();
 
-export default client 
+export default client;

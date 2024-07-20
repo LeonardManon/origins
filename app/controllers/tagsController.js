@@ -1,25 +1,24 @@
-import dataMapper from "../dataMapper/tagsDataMapper.js"
+import dataMapper from "../dataMapper/tagsDataMapper.js";
 
 const tagsController = {
+	//Méthode qui permet de créer un tag
 	createTag: async (req, res) => {
 		try {
-			const newTag = await dataMapper.create(req.body);
-			res.send({data: newTag})
+			const newTag = await dataMapper.createTag(req.body);
+			return res.status(200).send({data: newTag});
 		} catch (error) {
-			res.status(500).send(`Erreur: ${error}`)
-			throw error;
-		}
+			return res.status(500).send(`Erreur: ${error}`);
+		};
 	},
-	
+	// Méthode qui permet de supprimer un tag
 	deleteTag: async (req, res) => {
 		try {
 			const tagId = Number(req.params.tagId);
-			await dataMapper.delete(tagId);
-			return res.status(200).send({});
+			await dataMapper.deleteTag(tagId);
+			return res.status(200).send({ message: "ok" });
 		} catch (error) {
-			res.status(500).send(`Erreur: ${error}`)
-			throw error;
-		}
+			return res.status(500).send(`Erreur: ${error}`);
+		};
 	},
 };
 

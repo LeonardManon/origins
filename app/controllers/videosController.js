@@ -1,119 +1,98 @@
-import dataMapper from "../dataMapper/videosDataMapper.js"
-import videoTagDataMapper from "../dataMapper/videoTagDataMapper.js"
-import tagsDataMapper from "../dataMapper/tagsDataMapper.js"
+import dataMapper from "../dataMapper/videosDataMapper.js";
+import videoTagDataMapper from "../dataMapper/videoTagDataMapper.js";
+import tagsDataMapper from "../dataMapper/tagsDataMapper.js";
 
 const videosController = {
-	getAllVideos: async (req, res) => {
+	// Méthode qui permet d'aller récupérer toutes les vidéos 
+	getAllVideos: async (req, res, next) => {
 		try {
-			// recup depuis bdd
 			const allVideos = await dataMapper.getAll();
-			res.send({ data: allVideos })
+			return res.status(200).send({ data: allVideos });
 		} catch (error) {
-			res.status(500).send(`Erreur: ${error}`)
-			throw error;
-		}
+			return res.status(500).send(`Erreur: ${error}`);
+		};
 	},
-	getOneVideo: async (req, res) => {
+	// Méthode qui permet de récupérer une video 
+	getVideo: async (req, res) => {
 		try {
 			const videoId = Number(req.params.videoId);
-			const video = await dataMapper.getOne(videoId);
-			
+			const video = await dataMapper.getVideo(videoId);
 			if (video.length === 0) {
-				return res.status(404).send({ message: 'video not found' })
+				return res.status(404).send({ message: "video not found" });
 			}
-			return res.send({data: video});
+			return res.status(200).send({data: video});
 		} catch (error) {
-			res.status(500).send(`Erreur: ${error}`)
-			throw error;
-		}
+			return res.status(500).send(`Erreur: ${error}`);
+		};
 	},
-
-	createOneVideo: async (req, res) => {
+	//Méthode qui permet de créer une vidéo
+	createVideo: async (req, res) => {
 		try {
-			const newVideo = await dataMapper.create(req.body);
-			res.send({data: newVideo})
+			const newVideo = await dataMapper.createVideo(req.body);
+			return res.status(200).send({data: newVideo});
 		} catch (error) {
-			res.status(500).send(`Erreur: ${error}`)
-			throw error;
-		}
+			return res.status(500).send(`Erreur: ${error}`);
+		};
 	},
-
-	updateOneVideo: async (req, res) => {
+	// Méthode qui permet de modifié une vidéo
+	updateVideo: async (req, res) => {
 		try {
-			//récupérer l’id de la ressource que je compte modifier dans le controller dédié
 			const videoId = Number(req.params.videoId);
-			const videoToUpdate = req.body;
-			// récupérer en bdd la ressource avec son id pour vérifier qu’elle existe
-			const video = await dataMapper.getOne(videoId);
-			//si elle n’existe pas
-			// renvoyer une erreur 404 (fin de l’algo)
+			const videoUpdate = req.body;
+			const video = await dataMapper.getVideo(videoId);
 			if (video.length === 0){
-				return res.status(404).send({ message: 'video not found' })
+				return res.status(404).send({ message: "video not found"});
 			}
-			// si elle existe
-			// récuperer la data reçu dans le body à modifier
-			// faire un update en bdd de la data sur l’entrée en bdd qui correspond à l’id de la ressource
-			await dataMapper.update(videoId, videoToUpdate)
-			return res.send()
-			// renvoyer une 200 (fin de l’algo)
+			await dataMapper.updateVideo(videoId, videoUpdate);
+			return res.status(200).send({ message: "ok" });
 		} catch (error) {
-			res.status(500).send(`Erreur: ${error}`)
-			throw error;
-		}
+			return res.status(500).send(`Erreur: ${error}`);
+		};
 	},
-	
-	deleteOneVideo: async (req, res) => {
+	//Méthode qui permet de supprimer une vidéo
+	deleteVideo: async (req, res) => {
 		try {
 			const videoId = Number(req.params.videoId);
-			await dataMapper.delete(videoId);
-			return res.status(200).send()
+			await dataMapper.deleteVideo(videoId);
+			return res.status(200).send({ message: "ok"})
 		} catch (error) {
-			res.status(500).send(`Erreur: ${error}`)
-			throw error;
-		}
+			return res.status(500).send(`Erreur: ${error}`)
+		};
 	},
-	addTagInVideo: async (req, res) => {
+    // Méthode pour ajouter un tag à une vidéo
+	addTagVideo: async (req, res) => {
 		try {
-			console.log(`[{req.params}]:`, req.params);
 			const videoId = Number(req.params.videoId);
 			const tagId = Number(req.params.tagId);
-			
-			const video = await dataMapper.getOne(videoId);
+			const video = await dataMapper.getVideo(videoId);
 			if (video.length === 0){
-				return res.status(404).send({ message: 'video not found' })
+				return res.status(404).send({ message: "video not found" });
 			}
-
-			const tag = await tagsDataMapper.getOneTag(tagId);
+			const tag = await tagsDataMapper.getTag(tagId);
 			if (tag.length === 0){
-				return res.status(404).send({ message: 'tag not found' })
+				return res.status(404).send({ message: "tag not found" });
 			}
-
-			const tagInVideo = await videoTagDataMapper.getOne(tagId, videoId)
-			console.log(`[{tagInVideo}]:`, tagInVideo);
-			if (tagInVideo.length > 0) {
-				return res.status(200).send();
+			const tagVideo = await videoTagDataMapper.getTagVideo(tagId, videoId);
+			if (tagVideo.length > 0) {
+				return res.status(200).send({ message: "ok" });
 			}
-			
-			await videoTagDataMapper.addTagVideo(videoId, tagId)
-			return res.send()
+			await videoTagDataMapper.addTagVideo(videoId, tagId);
+			return res.status(200).send({ message: "ok" });
 		} catch (error) {
-			res.status(500).send(`Erreur: ${error}`)
-			throw error;
-		}
+			return res.status(500).send(`Erreur: ${error}`);
+		};
 	},
+	// Méthode qui permet de supprimer un tag d'une vidéo
 	deleteTagVideo: async (req, res) => {
-		console.log(`[{req.params}]:`, req.params);
 		try {
 			const tagId= Number(req.params.tagId);
 			const videoId = Number(req.params.videoId);
 			await videoTagDataMapper.deleteTagVideo(tagId,videoId);
-			return res.status(200).send()
+			return res.status(200).send({ message: "ok" });
 		} catch (error) {
-			res.status(500).send(`Erreur: ${error}`)
-			throw error;
-		}
+			return res.status(500).send(`Erreur: ${error}`);
+		};
 	},
-}
-
+};
 
 export default videosController;

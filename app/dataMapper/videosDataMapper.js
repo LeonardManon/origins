@@ -1,23 +1,26 @@
-import client from "../database.js"
+import client from "../database.js";
 
 const dataMapper= {
+
     //méthode pour récupérer toutes les vidéos
     getAll: async() => {
-        const sql = 'SELECT * FROM "Videos"';
+        const sql = `SELECT * FROM "Videos"`;
         const result = await client.query(sql);
         return result.rows;
     }, 
+
     //méthode pour récupérer une seule vidéo
-    getOne: async(videoId) => {
-        
+    getVideo: async(videoId) => {
         const sql=  {
-            text: `SELECT * FROM "Videos" WHERE "id" = ${videoId}`,
-        } 
+            text: `SELECT * FROM "Videos" WHERE "id" = $1`,
+            values: [videoId]
+        };
         const result = await client.query(sql);
         return result.rows;
     }, 
+
     //méthode pour créer une vidéo 
-    create: async(video) => {
+    createVideo: async(video) => {
         const { name,  description,  url } = video; 
         const sql=  {
             text: `INSERT INTO "Videos" (name, description, url) VALUES ($1, $2, $3)`,
@@ -28,7 +31,7 @@ const dataMapper= {
     }, 
 
     //méthode pour modifier une vidéo 
-    update: async (videoId, video) => {
+    updateVideo: async (videoId, video) => {
         const {name, description, url } = video; 
         const sql = {
             text: `UPDATE "Videos" SET "name" =$1, "description" = $2, "url" = $3 WHERE "id"= $4 RETURNING name, description, url, id `,
@@ -39,15 +42,14 @@ const dataMapper= {
     }, 
    
      //méthode pour supprimer une vidéo 
-     delete: async(videoId) => {
+     deleteVideo: async(videoId) => {
         const sql=  {
-            text: `DELETE FROM "Videos" WHERE "id" = ${videoId}`,
+            text: `DELETE FROM "Videos" WHERE "id" = $1`,
+			values: [videoId]
         };
         const result = await client.query(sql);
         return result.rows;
     }, 
-
-    
 };
 
 
