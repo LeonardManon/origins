@@ -1,8 +1,8 @@
-import client from "../database.js"
+import client from "../database.js";
 
 const dataMapper= {
-
-    getOneTag: async(tagId) => {
+    // méthode pour aller chercher un tag 
+    getTag: async(tagId) => {
         const sql=  {
             text: `SELECT * FROM "Tags" WHERE "id" = $1`,
             values: [tagId],
@@ -11,7 +11,7 @@ const dataMapper= {
         return result.rows;
     }, 
     //méthode pour créer un tag 
-     create: async(tag) => {
+     createTag: async(tag) => {
         const { value } = tag; 
         const sql=  {
             text: `INSERT INTO "Tags" (value) VALUES ($1)`,
@@ -20,11 +20,11 @@ const dataMapper= {
         const result = await client.query(sql);
         return result.rows;
     }, 
-
      //méthode pour supprimer un tag 
-     delete: async(tagId) => {
+     deleteTag: async(tagId) => {
         const sql=  {
-            text: `DELETE FROM "Tags" WHERE "id" = ${tagId}`,
+            text: `DELETE FROM "Tags" WHERE "id" = $1`,
+            values: [tagId],
         } 
         const result = await client.query(sql);
         return result.rows;

@@ -4,24 +4,24 @@ import videosController from "../controllers/videosController.js"
 const router = Router();
 
 //Route pour récupérer les vidéos
-router.get("/", videosController.getAllVideos)
+router.get("/", videosController.getAllVideos);
 
 //Route pour récupérer une video 
-router.get("/:videoId", videosController.getOneVideo)
+router.get("/:videoId", videosController.getVideo);
 
 //Route pour créer une vidéo
-router.post("/", videosController.createOneVideo)
+router.post("/", videosController.createVideo);
 
 //Route pour modifier une vidéo
-router.patch("/:videoId", videosController.updateOneVideo)
+router.patch("/:videoId", videosController.updateVideo);
 
 //Route pour supprimer une vidéo 
-router.delete("/:videoId", videosController.deleteOneVideo)
+router.delete("/:videoId", videosController.deleteVideo);
 
 //Route pour ajouter un tag à une vidéo
-router.put("/:videoId/tag/:tagId", videosController.addTagInVideo)
+router.put("/:videoId/tag/:tagId", videosController.addTagVideo);
 
 //Route pour supprimer un tag à une vidéo
-router.delete("/:videoId/tag/:tagId", videosController.deleteTagVideo)
+router.delete("/:videoId/tag/:tagId", videosController.deleteTagVideo);
 
 export default router;
