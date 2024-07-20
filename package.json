@@ -1,0 +1,22 @@
+{
+  "name": "projet-video",
+  "version": "1.0.0",
+  "description": "créer une Api permettant de se connecter à une base de donnée postgres.  ",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app/index.js",
+    "db:reset": "psql -U leonardmanon -d projetvideos -f ./app/data/create_tables.sql"
+
+  },
+  "author": "manon leonard",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
+
