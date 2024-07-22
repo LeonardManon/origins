@@ -1,4 +1,4 @@
-import dataMapper from "../dataMapper/videosDataMapper.js";
+import videoDataMapper from "../dataMapper/videosDataMapper.js";
 import videoTagDataMapper from "../dataMapper/videoTagDataMapper.js";
 import tagsDataMapper from "../dataMapper/tagsDataMapper.js";
 
@@ -6,7 +6,7 @@ const videosController = {
 	// Méthode qui permet d'aller récupérer toutes les vidéos 
 	getAllVideos: async (req, res, next) => {
 		try {
-			const allVideos = await dataMapper.getAll();
+			const allVideos = await videoDataMapper.getAll();
 			return res.status(200).send({ data: allVideos });
 		} catch (error) {
 			return res.status(500).send(`Erreur: ${error}`);
@@ -16,7 +16,7 @@ const videosController = {
 	getVideo: async (req, res) => {
 		try {
 			const videoId = Number(req.params.videoId);
-			const video = await dataMapper.getVideo(videoId);
+			const video = await videoDataMapper.getVideo(videoId);
 			if (video.length === 0) {
 				return res.status(404).send({ message: "video not found" });
 			}
@@ -28,7 +28,7 @@ const videosController = {
 	//Méthode qui permet de créer une vidéo
 	createVideo: async (req, res) => {
 		try {
-			const newVideo = await dataMapper.createVideo(req.body);
+			const newVideo = await videoDataMapper.createVideo(req.body);
 			return res.status(200).send({data: newVideo});
 		} catch (error) {
 			return res.status(500).send(`Erreur: ${error}`);
@@ -39,11 +39,11 @@ const videosController = {
 		try {
 			const videoId = Number(req.params.videoId);
 			const videoUpdate = req.body;
-			const video = await dataMapper.getVideo(videoId);
+			const video = await videoDataMapper.getVideo(videoId);
 			if (video.length === 0){
 				return res.status(404).send({ message: "video not found"});
 			}
-			await dataMapper.updateVideo(videoId, videoUpdate);
+			await videoDataMapper.updateVideo(videoId, videoUpdate);
 			return res.status(200).send({ message: "ok" });
 		} catch (error) {
 			return res.status(500).send(`Erreur: ${error}`);
@@ -53,7 +53,7 @@ const videosController = {
 	deleteVideo: async (req, res) => {
 		try {
 			const videoId = Number(req.params.videoId);
-			await dataMapper.deleteVideo(videoId);
+			await videoDataMapper.deleteVideo(videoId);
 			return res.status(200).send({ message: "ok"})
 		} catch (error) {
 			return res.status(500).send(`Erreur: ${error}`)
@@ -64,7 +64,7 @@ const videosController = {
 		try {
 			const videoId = Number(req.params.videoId);
 			const tagId = Number(req.params.tagId);
-			const video = await dataMapper.getVideo(videoId);
+			const video = await videoDataMapper.getVideo(videoId);
 			if (video.length === 0){
 				return res.status(404).send({ message: "video not found" });
 			}

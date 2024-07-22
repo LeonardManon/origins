@@ -1,10 +1,10 @@
-import dataMapper from "../dataMapper/tagsDataMapper.js";
+import tagsDataMapper from "../dataMapper/tagsDataMapper.js";
 
 const tagsController = {
 	//Méthode qui permet de créer un tag
 	createTag: async (req, res) => {
 		try {
-			const newTag = await dataMapper.createTag(req.body);
+			const newTag = await tagsDataMapper.createTag(req.body);
 			return res.status(200).send({data: newTag});
 		} catch (error) {
 			return res.status(500).send(`Erreur: ${error}`);
@@ -14,7 +14,7 @@ const tagsController = {
 	deleteTag: async (req, res) => {
 		try {
 			const tagId = Number(req.params.tagId);
-			await dataMapper.deleteTag(tagId);
+			await tagsDataMapper.deleteTag(tagId);
 			return res.status(200).send({ message: "ok" });
 		} catch (error) {
 			return res.status(500).send(`Erreur: ${error}`);
